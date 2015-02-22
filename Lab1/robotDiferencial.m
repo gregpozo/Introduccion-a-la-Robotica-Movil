@@ -1,22 +1,21 @@
-function robotDiferencial(R,w,wd,wi,PI,G)
+function robotDiferencial(R,w,b,PI,G)
 %Muestra el comportamiento de un robot sincrono
 POS_INICIAL = PI;
 RADIO = R;
 x = 0;
 graph = G;
 VEL_ANGULAR = w;
-VANG_DER = wd;
-VANG_IZQ = wi;
+DIST_ENTRE_RUEDAS = b;
+VLIN_IZQ = VEL_ANGULAR*(RADIO+DIST_ENTRE_RUEDAS/2);
+VLIN_DER = VEL_ANGULAR*(RADIO-DIST_ENTRE_RUEDAS/2);
 VEL_LINEAL = VEL_ANGULAR * RADIO;
-RADIO_RUEDA = VEL_LINEAL*2/(VANG_DER+VANG_IZQ);
-DIST_ENTRE_RUEDAS = ((VANG_DER-VANG_IZQ)* RADIO_RUEDA)/VEL_ANGULAR;
-fprintf('El radio obtenido es %f, y la distancia entre ruedas es %f',RADIO_RUEDA,DIST_ENTRE_RUEDAS);
+fprintf('la velocidad de la rueda derecha es %f y la de la izquierda es %f',VLIN_DER,VLIN_IZQ);
 
 if graph == 0
     while x < 2
         POS_ANGULAR = (VEL_ANGULAR * x) + POS_INICIAL;
-        POS_X = (cos(POS_ANGULAR)*RADIO_RUEDA*(VANG_IZQ+VANG_DER))/2;
-        POS_Y = (sin(POS_ANGULAR)*RADIO_RUEDA*(VANG_IZQ+VANG_DER))/2;
+        POS_X = (VEL_LINEAL*sin(POS_ANGULAR))/VEL_ANGULAR;
+        POS_Y = ((-VEL_LINEAL*cos(POS_ANGULAR))/VEL_ANGULAR)+VEL_LINEAL/VEL_ANGULAR;
         figure(4);
         plot(POS_X,POS_Y);
         drawnow;
@@ -26,8 +25,8 @@ if graph == 0
 elseif graph == 1
     while x < 7
         POS_ANGULAR = (VEL_ANGULAR * x) + POS_INICIAL;
-        POS_X = (cos(POS_ANGULAR)*RADIO_RUEDA*(VANG_IZQ+VANG_DER))/2;
-        POS_Y = (sin(POS_ANGULAR)*RADIO_RUEDA*(VANG_IZQ+VANG_DER))/2;
+        POS_X = (VEL_LINEAL*sin(POS_ANGULAR))/VEL_ANGULAR;
+        POS_Y = ((-VEL_LINEAL*cos(POS_ANGULAR))/VEL_ANGULAR)+VEL_LINEAL/VEL_ANGULAR;
         figure(5);
         plot(POS_X,POS_Y);
         drawnow;
@@ -37,8 +36,8 @@ elseif graph == 1
 elseif graph == 2
     while x < 7
         POS_ANGULAR = (VEL_ANGULAR * x) + POS_INICIAL;
-        POS_X = (cos(POS_ANGULAR)*RADIO_RUEDA*(VANG_IZQ+VANG_DER))/2;
-        POS_Y = (sin(POS_ANGULAR)*RADIO_RUEDA*(VANG_IZQ+VANG_DER))/2;
+        POS_X = (VEL_LINEAL*sin(POS_ANGULAR))/VEL_ANGULAR;
+        POS_Y = ((-VEL_LINEAL*cos(POS_ANGULAR))/VEL_ANGULAR)+VEL_LINEAL/VEL_ANGULAR;
         figure(6);
         plot(POS_X,POS_Y);
         drawnow;
